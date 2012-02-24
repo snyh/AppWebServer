@@ -10,7 +10,7 @@ namespace JRPC {
 	}
 
 	JSON Server::do_rpc(const JSON& req) {
-		std::cout << "RPC::Receive:\n" << j2s(req) << std::endl;
+		//std::cout << "RPC::Receive:\n" << j2s(req) << std::endl;
 		if (!req.isMember("id") || !req["id"].isInt())
 		  return stock_error(illegal_service, 0);
 
@@ -34,7 +34,7 @@ namespace JRPC {
 		JSON p = req["params"];
 		//return JRPC::stock_ok(req["id"], m->second(p));
 		JSON re = JRPC::stock_ok(req["id"], m->second(p));
-		std::cout << "RPC::Send:\n" << re << std::endl;
+		//std::cout << "RPC::Send:\n" << re << std::endl;
 		return re;
 	}
 

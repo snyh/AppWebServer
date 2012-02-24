@@ -1,8 +1,6 @@
 #include "session.hpp"
 #include "request_response.hpp"
 
-#define AWS_DEBUG
-
 #ifdef AWS_DEBUG
 #include <fstream>
 #else
@@ -141,7 +139,7 @@ void Session::handle_file()
   rep_.set_content(buf, is.gcount());
 #else
   auto p = _RC(request_path);
-  rep_.set_content((char*)p.frst, p.second);
+  rep_.set_content((char*)p.first, p.second);
   if (rep_.size() == -1) {
 	  rep_ = stock_response(Response::not_found);
 	  return;

@@ -2,7 +2,7 @@
 #define __JRPC_HPP_
 
 #include <functional>
-#include <jsoncpp/json.h>
+#include "json/json.h"
 #include <string>
 
 namespace JRPC {
