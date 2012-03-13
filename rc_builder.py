@@ -17,6 +17,7 @@ std::pair<unsigned char*, size_t> _RC(std::string path);\n\
 content_cpp = '\
 /*THIS FILE IS AUTO GENERATE BY AppWebServer Resource Builder*/\n\
 \
+#ifndef AWS_DEBUG\n\
 #include "content.hpp"\n\
 #include <string>\n\
 using namespace std;\n\
@@ -25,7 +26,8 @@ typedef unsigned char uchar;\n\
     static uchar* _rc_empty = 0;\n\
     {0}\n\
     return make_pair(_rc_empty, -1);\n\
-}}'
+}}\n\
+#endif'
 content_static = 'static uchar {0}[] = {{\n {1} \n}};\n'
 content_return_first = '\
 if (path == "{0}") {{\n\
@@ -39,7 +41,7 @@ content_return = '\
 
 contents = ["", ""]
 
-doc_root = "doc_root/"
+doc_root = sys.argv[1] or "doc_root/"
 if len(sys.argv) == 2:
     doc_root = sys.argv[1]
 

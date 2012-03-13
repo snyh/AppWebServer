@@ -12,7 +12,7 @@ class Session: public std::enable_shared_from_this<Session>,
 	private boost::noncopyable
 {
 public:
-  explicit Session(boost::asio::io_service& io_service, JRPC::Method m);
+  explicit Session(boost::asio::io_service& io_service, AWS::Method m);
   void start();
   boost::asio::ip::tcp::socket& socket() { return socket_; }
 private:
@@ -35,7 +35,7 @@ private:
   Response rep_;
   RequestParser parse_;
   bool is_valid_;
-  JRPC::Method do_rpc_;
+  AWS::Method do_rpc_;
 };
 
 typedef std::shared_ptr<Session> SessionPtr;

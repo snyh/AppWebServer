@@ -1,15 +1,15 @@
 #include "jrpc.hpp"
 
-namespace JRPC {
+namespace AWS {
 
-	void Server::install_service(Service& s) {
+	void JSONPServer::install_service(Service& s) {
 		this->services_.insert(make_pair(s.name, s));
 	}
-	void Server::remove_service(const std::string& name) {
+	void JSONPServer::remove_service(const std::string& name) {
 		this->services_.erase(name);
 	}
 
-	JSON Server::do_rpc(const JSON& req) {
+	JSON JSONPServer::do_rpc(const JSON& req) {
 		//std::cout << "RPC::Receive:\n" << j2s(req) << std::endl;
 		if (!req.isMember("id") || !req["id"].isInt())
 		  return stock_error(illegal_service, 0);
@@ -33,7 +33,7 @@ namespace JRPC {
 		  return stock_error(parameter_mismatch, req["id"].asInt());
 		JSON p = req["params"];
 		//return JRPC::stock_ok(req["id"], m->second(p));
-		JSON re = JRPC::stock_ok(req["id"], m->second(p));
+		JSON re = stock_ok(req["id"], m->second(p));
 		//std::cout << "RPC::Send:\n" << re << std::endl;
 		return re;
 	}

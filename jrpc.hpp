@@ -5,7 +5,7 @@
 #include "json/json.h"
 #include <string>
 
-namespace JRPC {
+namespace AWS {
 	typedef Json::Value JSON;
 	typedef std::function<JSON(const JSON&)> Method;
 	struct Service {
@@ -40,7 +40,7 @@ namespace JRPC {
 	}
 
 
-	class Server {
+	class JSONPServer {
 	public:
 	  void install_service(Service& s);
 	  void remove_service(const std::string& name);
