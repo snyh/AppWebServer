@@ -149,7 +149,7 @@ void Session::handle_file()
   rep_.status = Response::ok;
   rep_.headers = {
 		{"Content-Length", std::to_string(rep_.size())},
-		{"Content-Type", extension_to_mime(ext)},
+		{"Content-Type", extension_to_mime(ext) + ";charset=utf-8"},
 		{"Connection", "close"},
   };
 }
