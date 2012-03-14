@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 find_package(Boost 1.41.0  COMPONENTS system thread filesystem REQUIRED)
 find_package(Threads REQUIRED)
 
-set(CMAKE_CXX_FLAGS "-std=c++0x")
+set(CMAKE_CXX_FLAGS "-std=gnu++0x")
 
 include_directories(include)
 
@@ -28,6 +28,7 @@ target_link_libraries(awserver_d ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 set_target_properties(awserver_d PROPERTIES COMPILE_FLAGS "-DAWServer_DEBUG")
 
-
-add_executable(test test.cpp)
-target_link_libraries(test ${Boost_LIBRARIES} awserver_d)
+if(NOT WIN32)
+	add_executable(test test.cpp)
+	target_link_libraries(test ${Boost_LIBRARIES} awserver_d)
+endif()

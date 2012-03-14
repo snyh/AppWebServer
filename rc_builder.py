@@ -1,18 +1,7 @@
-#!/usr/bin/python2
-
-import sys
+#!/usr/bin/python2 -d3
 import os
+from optparse import OptionParser
 from struct import unpack
-
-content_hpp =  '\
-/*THIS FILE IS AUTO GENERATE BY AppWebServer Resource Builder*/\n\
-\n\
-#ifndef CONTENT_HPP_\n \
-#define CONTENT_HPP_\n\
-#include <utility>\n\
-#include <string>\n\
-std::pair<unsigned char*, size_t> _RC(std::string path);\n\
-#endif\n'
 
 content_cpp = '\
 /*THIS FILE IS AUTO GENERATE BY AppWebServer Resource Builder*/\n\
@@ -39,11 +28,6 @@ content_return = '\
    return make_pair({1}, {2});\n\
 }}\n'
 
-contents = ["", ""]
-
-doc_root = sys.argv[1] or "doc_root/"
-if len(sys.argv) == 2:
-    doc_root = sys.argv[1]
 
 def generate_one(name, path, template=content_return):
     f = open(path, 'r')
@@ -67,26 +51,44 @@ def generate_one(name, path, template=content_return):
     return [s,c]
 
 
-old_path= os.path.abspath('.')
-os.chdir(doc_root)
 
-counter = 0;
-for root, dirs, files in os.walk("."):
-    for file in files:
-        if (counter==0):
-            c = generate_one("_rc_{0}".format(counter),os.path.join(root, file), content_return_first)
-        else:
-            c = generate_one("_rc_{0}".format(counter),os.path.join(root, file))
-        contents[0] += c[0]
-        contents[1] += c[1]
-        counter += 1;
+def generate_content(doc_root):
+	contents = ["", ""]
+	old_path= os.path.abspath('.')
+	os.chdir(doc_root)
 
-os.chdir(old_path)
+	counter = 0;
+	for root, dirs, files in os.walk("."):
+		for file in files:
+			if (counter==0):
+				c = generate_one("_rc_{0}".format(counter),
+						os.path.join(root, file), content_return_first)
+			else:
+				c = generate_one("_rc_{0}".format(counter),
+						os.path.join(root, file))
+			contents[0] += c[0]
+			contents[1] += c[1]
+			counter += 1;
 
-f = open("content.cpp", "w")
-f.write(content_cpp.format(contents[0]+contents[1]));
-f.close()
+	os.chdir(old_path)
+	return contents
 
-f = open("content.hpp", "w")
-f.write(content_hpp)
-f.close()
+def write_content(contents, path):
+	f = open(os.path.join(path, "content.cpp"), "w")
+	f.write(content_cpp.format(contents[0]+contents[1]))
+	f.close()
+
+
+def main():
+	usage = "usage: %prog [options]"
+	parser = OptionParser(usage)
+	parser.add_option("-o", "--output", dest="output", default="./",
+			help="The directory sotrage the content.cpp file. (default:./)")
+	parser.add_option("-s", "--source", dest="doc_root", default="doc_root",
+			help="The directory to find content file. (default: ./doc_root)")
+	(options, args) = parser.parse_args()
+	contents = generate_content(options.doc_root)
+	write_content(contents, options.output)
+
+if __name__ == "__main__":
+	main()
