@@ -4,7 +4,8 @@
 #ifdef AWServer_DEBUG
 #include <fstream>
 #else
-#include "content.hpp"
+#include <utility>
+std::pair<unsigned char*, size_t> _RC(std::string path);
 #endif
 
 using namespace std;

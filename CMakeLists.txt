@@ -27,3 +27,7 @@ add_library(awserver_d ${SRC_LIST})
 target_link_libraries(awserver_d ${Boost_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 set_target_properties(awserver_d PROPERTIES COMPILE_FLAGS "-DAWServer_DEBUG")
+
+
+add_executable(test test.cpp)
+target_link_libraries(test ${Boost_LIBRARIES} awserver_d)
