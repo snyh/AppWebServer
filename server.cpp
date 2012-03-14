@@ -5,7 +5,7 @@
 #include <set>
 #include <vector>
 
-namespace AWS {
+namespace AWServer {
 	using boost::asio::ip::tcp;
 	using namespace std;
 
@@ -26,10 +26,15 @@ namespace AWS {
 	};
 
 	HTTPServer::HTTPServer(int p) :pimpl(new impl(p)) {}
+
 	HTTPServer::~HTTPServer() {}
+
 	void HTTPServer::run() { pimpl->run(); }
+
 	void HTTPServer::stop() { pimpl->run(); }
+
 	int HTTPServer::port() { return pimpl->port_; }
+
 	bool HTTPServer::open_browser() { 
 		cout << "test:" << pimpl->port_ << endl;
 		return Browser::open(pimpl->port_); 

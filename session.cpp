@@ -1,7 +1,7 @@
 #include "session.hpp"
 #include "request_response.hpp"
 
-#ifdef AWS_DEBUG
+#ifdef AWServer_DEBUG
 #include <fstream>
 #else
 #include "content.hpp"
@@ -10,7 +10,7 @@
 using namespace std;
 using boost::asio::ip::tcp;
 
-Session::Session(boost::asio::io_service& io_service, AWS::Method m)
+Session::Session(boost::asio::io_service& io_service, AWServer::Method m)
 	:socket_(io_service),
 	do_rpc_(m),
 	is_valid_(true)
@@ -106,8 +106,8 @@ namespace {
 
 void Session::handle_rpc()
 {
-  AWS::JSON r = do_rpc_(AWS::s2j(req_.params));
-  rep_.copy_content(AWS::j2s(r));
+  AWServer::JSON r = do_rpc_(AWServer::s2j(req_.params));
+  rep_.copy_content(AWServer::j2s(r));
   rep_.status = Response::ok;
   rep_.headers = {
 		{"Content-Length", std::to_string(rep_.size())},
@@ -126,7 +126,7 @@ void Session::handle_file()
   if (slash_pos != string::npos && dot_pos > slash_pos) {
 	  ext = request_path.substr(dot_pos + 1);
   }
-#ifdef AWS_DEBUG
+#ifdef AWServer_DEBUG
   string full_path = "doc_root" + request_path;
   ifstream is(full_path.c_str(), ios::in | ios::binary);
   if (!is) {

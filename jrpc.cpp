@@ -1,6 +1,6 @@
 #include "jrpc.hpp"
 
-namespace AWS {
+namespace AWServer {
 
 	void JSONPServer::install_service(Service& s) {
 		this->services_.insert(make_pair(s.name, s));

@@ -4,32 +4,32 @@
 
 using namespace std;
 
-void rpc_init(AWS::JSONPServer&);
+void rpc_init(AWServer::JSONPServer&);
 
 int main()
 {
-  AWS::JSONPServer rpc;
+  AWServer::JSONPServer rpc;
   rpc_init(rpc);
 
-  AWS::HTTPServer s;
+  AWServer::HTTPServer s;
   s.set_rpc(rpc);
   s.open_browser();
   s.run();
   return 0;
 }
 
-void rpc_init(AWS::JSONPServer& rpc)
+void rpc_init(AWServer::JSONPServer& rpc)
 {
-  typedef const AWS::JSON MP;
+  typedef const AWServer::JSON MP;
   enum {REMOTE, LOCAL, DOWNLOAD};
 
-  AWS::Service filemanager;
+  AWServer::Service filemanager;
   filemanager.name = "filemanager";
   filemanager.methods = {
 		{
 		  "file_list", [](MP& j){
-			  AWS::JSON result;
-			  AWS::JSON node;
+			  AWServer::JSON result;
+			  AWServer::JSON node;
 			  node["name"] = "index.htm";
 			  node["size"] = .023;
 			  node["status"] = 0;
@@ -50,18 +50,18 @@ void rpc_init(AWS::JSONPServer& rpc)
 			  node["type"] = 1;
 			  node["progress"] = 0;
 			  result.append(node);
-			  return AWS::stock_ok(j["id"], result);
+			  return AWServer::stock_ok(j["id"], result);
 		  }
 		},
 		{
 		  "add_file", [](MP& j){
-			  AWS::JSON node;
+			  AWServer::JSON node;
 			  node["name"] = "new.htm";
 			  node["size"] = .023;
 			  node["status"] = 0;
 			  node["type"] = 0;
 			  node["progress"] = 1;
-			  return AWS::stock_ok(j["id"], node);
+			  return AWServer::stock_ok(j["id"], node);
 		  }
 		},
   };

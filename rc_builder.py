@@ -18,7 +18,7 @@ content_cpp = '\
 /*THIS FILE IS AUTO GENERATE BY AppWebServer Resource Builder*/\n\
 \
 #ifndef AWS_DEBUG\n\
-#include "content.hpp"\n\
+#include <utility>\n\
 #include <string>\n\
 using namespace std;\n\
 typedef unsigned char uchar;\n\
